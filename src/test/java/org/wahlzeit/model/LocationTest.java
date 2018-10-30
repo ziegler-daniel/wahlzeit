@@ -35,6 +35,6 @@ public class LocationTest {
 	@Test
 	public void testLocationInitialization() {
 		Location location = new Location(new Coordinate(1.0, 2.0, 10.1));
-		assertEquals(location.coordinate, new Coordinate(1.0, 2.0, 10.1));
+		assertEquals(location.getCoordinate(), new Coordinate(1.0, 2.0, 10.1));
 	}
 }

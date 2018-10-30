@@ -125,7 +125,7 @@ public class Photo extends DataObject {
 	/**
 	 * The location where the photo was taken.
 	 */
-	public Location location;
+	private Location location;
 
 	/**
 	 *
@@ -422,5 +422,19 @@ public class Photo extends DataObject {
 	public void setNoNewPraise() {
 		noVotesAtLastNotification = noVotes;
 		incWriteCount();
+	}
+
+	/**
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 }

@@ -32,9 +32,9 @@ public class Coordinate {
 	/**
 	 * x, y, z values representing the cartesian coordinate
 	 */
-	private double x;
-	private double y;
-	private double z;
+	private final double x;
+	private final double y;
+	private final double z;
 
 	/**
 	 * @methodtype constructor
@@ -50,7 +50,7 @@ public class Coordinate {
 	 */
 	public double getDistance(Coordinate coordinate) {
 		if (coordinate == null) {
-			throw new IllegalArgumentException("The coordinate must not be null");
+			throw new IllegalArgumentException("The coordinate must not be null.");
 		}
 
 		double distX = coordinate.x - x;
@@ -61,7 +61,7 @@ public class Coordinate {
 	}
 
 	/**
-	 *
+	 * @methodtype boolean-query
 	 */
 	public boolean isEqual(Coordinate coordinate) {
 		if (coordinate == null) {
@@ -74,7 +74,7 @@ public class Coordinate {
 	}
 
 	/**
-	 *
+	 * @methodtype boolean-query
 	 */
 	public boolean equals(Object object) {
 		if (object instanceof Coordinate) {
@@ -85,21 +85,21 @@ public class Coordinate {
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public double getX() {
 		return x;
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public double getY() {
 		return y;
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public double getZ() {
 		return z;
