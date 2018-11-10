@@ -46,9 +46,9 @@ import java.util.logging.Logger;
 public class PhotoManager extends ObjectManager {
 
 	/**
-	 *
+	 * The instance of the PhotoManager for the Singleton pattern.
 	 */
-	protected static final PhotoManager instance = new PhotoManager();
+	protected static final PhotoManager instance = new SailboatPhotoManager();
 
 	private static final Logger log = Logger.getLogger(PhotoManager.class.getName());
 
@@ -63,42 +63,42 @@ public class PhotoManager extends ObjectManager {
 	protected PhotoTagCollector photoTagCollector = null;
 
 	/**
-	 *
+	 * @methodtype constructor
 	 */
-	public PhotoManager() {
+	protected PhotoManager() {
 		photoTagCollector = PhotoFactory.getInstance().createPhotoTagCollector();
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public static final PhotoManager getInstance() {
 		return instance;
 	}
 
 	/**
-	 *
+	 * @methodtype boolean-query
 	 */
 	public final boolean hasPhoto(String id) {
 		return hasPhoto(PhotoId.getIdFromString(id));
 	}
 
 	/**
-	 *
+	 * @methodtype boolean-query
 	 */
 	public final boolean hasPhoto(PhotoId id) {
 		return getPhoto(id) != null;
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public final Photo getPhoto(PhotoId id) {
 		return instance.getPhotoFromId(id);
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public Photo getPhotoFromId(PhotoId id) {
 		if (id == null) {
@@ -257,7 +257,7 @@ public class PhotoManager extends ObjectManager {
 		PhotoSize photoSize;
 		int it = 0;
 		boolean moreSizesExist = true;
-		do{
+		do {
 			photoSize = PhotoSize.values()[it];
 			it++;
 			Image image = photo.getImage(photoSize);
@@ -300,7 +300,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public void savePhotos() throws IOException{
+	public void savePhotos() throws IOException {
 		updateObjects(photoCache.values());
 	}
 
@@ -334,7 +334,7 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
-	 *
+	 * @methodtype factory
 	 */
 	public Photo createPhoto(String filename, Image uploadedImage) throws Exception {
 		PhotoId id = PhotoId.getNextId();

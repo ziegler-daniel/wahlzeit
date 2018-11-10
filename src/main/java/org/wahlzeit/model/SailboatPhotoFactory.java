@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
+ * Copyright (c) 2018-2019 by Daniel Ziegler
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -20,26 +20,23 @@
 
 package org.wahlzeit.model;
 
+import com.googlecode.objectify.annotation.Subclass;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;
 
 /**
- * An Abstract Factory for creating photos and related objects.
+ * An Factory for creating SailboatPhotos and related objects.
  */
-public class PhotoFactory {
+public class SailboatPhotoFactory extends PhotoFactory {
 
-	private static final Logger log = Logger.getLogger(PhotoFactory.class.getName());
-	/**
-	 * Hidden singleton instance; needs to be initialized from the outside.
-	 */
-	protected static PhotoFactory instance = null;
+	private static final Logger log = Logger.getLogger(SailboatPhotoFactory.class.getName());
 
 	/**
 	 * @methodtype constructor
 	 */
-	protected PhotoFactory() {
-		// do nothing
+	protected SailboatPhotoFactory() {
+		super();
 	}
 
 	/**
@@ -54,65 +51,36 @@ public class PhotoFactory {
 	 */
 	public static synchronized PhotoFactory getInstance() {
 		if (instance == null) {
-			log.config(LogBuilder.createSystemMessage().addAction("setting generic PhotoFactory").toString());
-			setInstance(new PhotoFactory());
+			log.config(LogBuilder.createSystemMessage().addAction("setting generic SailboatPhotoFactory").toString());
+			setInstance(new SailboatPhotoFactory());
 		}
 
 		return instance;
 	}
 
 	/**
-	 * Method to set the singleton instance of PhotoFactory.
-	 */
-	protected static synchronized void setInstance(PhotoFactory photoFactory) {
-		if (instance != null) {
-			throw new IllegalStateException("attempt to initalize PhotoFactory twice");
-		}
-
-		instance = photoFactory;
-	}
-
-	/**
 	 * @methodtype factory
 	 */
-	public Photo createPhoto() {
-		return new Photo();
+	@Override
+	public SailboatPhoto createPhoto() {
+		return new SailboatPhoto();
 	}
 
 	/**
 	 * Creates a new photo with the specified id
 	 */
-	public Photo createPhoto(PhotoId id) {
-		return new Photo(id);
+	@Override
+	public SailboatPhoto createPhoto(PhotoId id) {
+		return new SailboatPhoto(id);
 	}
 
 	/**
 	 * Loads a photo. The Java object is loaded from the Google Datastore, the Images in all sizes are loaded from the
 	 * Google Cloud storage.
 	 */
-	public Photo loadPhoto(PhotoId id) {
-	   /* Photo result =
-                OfyService.ofy().load().type(Photo.class).ancestor(KeyFactory.createKey("Application", "Wahlzeit")).filter(Photo.ID, id).first().now();
-        for (PhotoSize size : PhotoSize.values()) {
-            GcsFilename gcsFilename = new GcsFilename("picturebucket", filename);
-
-        }*/
+	@Override
+	public SailboatPhoto loadPhoto(PhotoId id) {
+		// Not implemented
 		return null;
 	}
-
-
-	/**
-	 *
-	 */
-	public PhotoFilter createPhotoFilter() {
-		return new PhotoFilter();
-	}
-
-	/**
-	 *
-	 */
-	public PhotoTagCollector createPhotoTagCollector() {
-		return new PhotoTagCollector();
-	}
-
 }

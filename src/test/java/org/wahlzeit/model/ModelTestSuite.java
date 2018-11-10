@@ -36,6 +36,9 @@ import org.junit.runners.Suite;
 		org.wahlzeit.model.GuestTest.class,
 		org.wahlzeit.model.LocationTest.class,
 		org.wahlzeit.model.PhotoFilterTest.class,
+		org.wahlzeit.model.SailboatPhotoFactoryTest.class,
+		org.wahlzeit.model.SailboatPhotoManagerTest.class,
+		org.wahlzeit.model.SailboatPhotoTest.class,
 		org.wahlzeit.model.TagsTest.class,
 		org.wahlzeit.model.UserStatusTest.class,
 		org.wahlzeit.model.ValueTest.class

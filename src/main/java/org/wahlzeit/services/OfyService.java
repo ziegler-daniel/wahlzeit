@@ -10,22 +10,24 @@ import org.wahlzeit.model.Guest;
 import org.wahlzeit.model.Moderator;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCase;
+import org.wahlzeit.model.SailboatPhoto;
 import org.wahlzeit.model.Tag;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.persistence.DatastoreAdapter.ImageWrapper;
 
 /**
  * A badly named class, to be renamed to ObjectifyService first, something better later.
- * 
+ *
  * @review
  */
 public class OfyService {
 
-	/**
+	/*
 	 * Register all entities at startup
 	 */
 	static {
 		factory().register(Photo.class);
+		factory().register(SailboatPhoto.class);
 		factory().register(Globals.class);
 		factory().register(Tag.class);
 		factory().register(User.class);

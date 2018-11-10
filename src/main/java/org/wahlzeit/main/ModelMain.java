@@ -25,8 +25,9 @@ import com.google.appengine.api.images.ImagesServiceFactory;
 import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCaseManager;
-import org.wahlzeit.model.PhotoFactory;
 import org.wahlzeit.model.PhotoManager;
+import org.wahlzeit.model.SailboatPhotoFactory;
+import org.wahlzeit.model.SailboatPhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
@@ -64,11 +65,11 @@ public abstract class ModelMain extends AbstractMain {
 		log.config(LogBuilder.createSystemMessage().addAction("load user").toString());
 		UserManager.getInstance().init();
 
-		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
-		PhotoFactory.initialize();
+		log.config(LogBuilder.createSystemMessage().addAction("init SailboatPhotoFactory").toString());
+		SailboatPhotoFactory.initialize();
 
-		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
-		PhotoManager.getInstance().init();
+		log.config(LogBuilder.createSystemMessage().addAction("load SailboatPhotos").toString());
+		SailboatPhotoManager.getInstance().init();
 	}
 
 
@@ -84,7 +85,7 @@ public abstract class ModelMain extends AbstractMain {
 	/**
 	 *
 	 */
-	public void saveAll() throws IOException{
+	public void saveAll() throws IOException {
 		PhotoCaseManager.getInstance().savePhotoCases();
 		PhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveClients();
