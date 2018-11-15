@@ -28,6 +28,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses(value = {
+		org.wahlzeit.utils.DoubleUtilTest.class,
 		org.wahlzeit.utils.StringUtilTest.class,
 		org.wahlzeit.utils.VersionTest.class,
 })

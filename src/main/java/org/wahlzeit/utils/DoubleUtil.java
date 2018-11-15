@@ -18,36 +18,31 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.model;
+package org.wahlzeit.utils;
 
 /**
- * A Coordinate represents a coordinte in the 3D space.
+ * A set of utility functions for working with doubles. Especially for comparing them.
  */
-public interface Coordinate {
+public class DoubleUtil {
 
 	/**
-	 * @methodtype conversion
+	 * If the difference between two double values is below this threshold they are assumed as equal.
 	 */
-	CartesianCoordinate asCartesianCoordinate();
+	private static final double THRESHOLD_DOUBLE = 1.0E-5;
 
-	/**
-	 * @methodtype get
-	 */
-	double getCartesianDistance(Coordinate coordinate);
+	public static boolean areEqual(double a, double b) {
+		return areEqual(a, b, THRESHOLD_DOUBLE);
+	}
 
-	/**
-	 * @methodtype conversion
-	 */
-	SphericCoordinate asSphericCoordinate();
+	public static boolean areEqual(double a, double b, double threshold) {
+		return Math.abs(a - b) < threshold;
+	}
 
-	/**
-	 * @methodtype get
-	 */
-	double getCentralAngle(Coordinate coordinate);
+	public static boolean areEqualTo(double a, double b, double expected) {
+		return areEqualTo(a, b, expected, THRESHOLD_DOUBLE);
+	}
 
-	/**
-	 * @methodtype boolean-query
-	 */
-	boolean isEqual(Coordinate coordinate);
-
+	public static boolean areEqualTo(double a, double b, double expected, double threshold) {
+		return areEqual(a, expected, threshold) && areEqual(b, expected, threshold);
+	}
 }

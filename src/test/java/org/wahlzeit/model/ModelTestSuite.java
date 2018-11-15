@@ -30,7 +30,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(value = {
 		org.wahlzeit.model.persistence.PersistanceTestSuite.class,
 		org.wahlzeit.model.AccessRightsTest.class,
-		org.wahlzeit.model.CoordinateTest.class,
+		org.wahlzeit.model.CartesianCoordinateTest.class,
 		org.wahlzeit.model.FlagReasonTest.class,
 		org.wahlzeit.model.GenderTest.class,
 		org.wahlzeit.model.GuestTest.class,
@@ -39,6 +39,7 @@ import org.junit.runners.Suite;
 		org.wahlzeit.model.SailboatPhotoFactoryTest.class,
 		org.wahlzeit.model.SailboatPhotoManagerTest.class,
 		org.wahlzeit.model.SailboatPhotoTest.class,
+		org.wahlzeit.model.SphericCoordinateTest.class,
 		org.wahlzeit.model.TagsTest.class,
 		org.wahlzeit.model.UserStatusTest.class,
 		org.wahlzeit.model.ValueTest.class
