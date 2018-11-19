@@ -25,7 +25,7 @@ import org.wahlzeit.utils.DoubleUtil;
 /**
  * A CartesianCoordinate represents a cartesian coordinate in the 3D.
  */
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 
 	/**
 	 * x, y, z values representing the cartesian coordinate
@@ -87,11 +87,6 @@ public class CartesianCoordinate implements Coordinate {
 		}
 
 		return new SphericCoordinate(radius, theta, phi);
-	}
-
-	@Override
-	public double getCentralAngle(Coordinate coordinate) {
-		return asSphericCoordinate().getCentralAngle(coordinate);
 	}
 
 	@Override

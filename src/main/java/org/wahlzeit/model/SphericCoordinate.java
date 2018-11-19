@@ -30,7 +30,7 @@ import org.wahlzeit.utils.DoubleUtil;
  * Theta (polar angle, inclination): Valid values [0, PI]
  * Phi (azimuthal angle, azimuth): Valid values [0, 2PI)
  */
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * The triple radius, theta and phi represent a spheric coordinate as defined above.
@@ -59,11 +59,6 @@ public class SphericCoordinate implements Coordinate {
 		double z = radius * Math.cos(theta);
 
 		return new CartesianCoordinate(x, y, z);
-	}
-
-	@Override
-	public double getCartesianDistance(Coordinate coordinate) {
-		return asCartesianCoordinate().getCartesianDistance(coordinate);
 	}
 
 	@Override
