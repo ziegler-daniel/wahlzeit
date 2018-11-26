@@ -149,7 +149,7 @@ public class SphericCoordinateTest {
 	public void testAssertValidRadius() {
 		s1.assertValidRadius(0.0);
 		s1.assertValidRadius(100.2314);
-		assert (true);
+		assertTrue (true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -172,7 +172,7 @@ public class SphericCoordinateTest {
 		s1.assertValidTheta(0.0);
 		s1.assertValidTheta(Math.PI);
 		s1.assertValidTheta(1.4653);
-		assert (true);
+		assertTrue (true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -190,7 +190,7 @@ public class SphericCoordinateTest {
 		s1.assertValidPhi(0.0);
 		s1.assertValidPhi(3.423);
 		s1.assertValidPhi(2 * Math.PI - 0.0001);
-		assert (true);
+		assertTrue (true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)

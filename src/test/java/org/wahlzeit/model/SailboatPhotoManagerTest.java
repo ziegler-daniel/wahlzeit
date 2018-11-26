@@ -28,6 +28,7 @@ import org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvi
 import org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for the {@link SailboatPhotoManager} class.
@@ -53,7 +54,7 @@ public class SailboatPhotoManagerTest {
 		PhotoManager sailboatPhotoManager2 = SailboatPhotoManager.getInstance();
 
 		assertNotNull(sailboatPhotoManager1);
-		assert (sailboatPhotoManager1 == sailboatPhotoManager2);
-		assert (sailboatPhotoManager1 instanceof SailboatPhotoManager);
+		assertTrue (sailboatPhotoManager1 == sailboatPhotoManager2);
+		assertTrue (sailboatPhotoManager1 instanceof SailboatPhotoManager);
 	}
 }

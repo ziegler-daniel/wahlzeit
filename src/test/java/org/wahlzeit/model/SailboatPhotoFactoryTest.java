@@ -27,7 +27,9 @@ import org.junit.rules.RuleChain;
 import org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider;
 import org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test for the {@link SailboatPhotoFactory} class.
@@ -51,7 +53,7 @@ public class SailboatPhotoFactoryTest {
 		PhotoFactory photoFactory1 = SailboatPhotoFactory.getInstance();
 		PhotoFactory photoFactory2 = SailboatPhotoFactory.getInstance();
 		assertNotNull(photoFactory1);
-		assert(photoFactory1 == photoFactory2);
+		assertTrue(photoFactory1 == photoFactory2);
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -64,7 +66,7 @@ public class SailboatPhotoFactoryTest {
 		PhotoId photoId = new PhotoId(0x108);
 		Photo photo = PhotoFactory.getInstance().createPhoto(photoId);
 		assertNotNull(photo);
-		assert(photo instanceof SailboatPhoto);
-		assert(photo.getId().equals(photoId));
+		assertTrue(photo instanceof SailboatPhoto);
+		assertEquals(photo.getId(), photoId);
 	}
 }

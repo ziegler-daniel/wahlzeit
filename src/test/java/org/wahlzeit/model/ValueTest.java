@@ -22,6 +22,7 @@ package org.wahlzeit.model;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -73,44 +74,44 @@ public class ValueTest {
 	 */
 	@Test
 	public void testPhotoStatus() {
-		assert (PhotoStatus.VISIBLE == PhotoStatus.getFromInt(0));
-		assert (PhotoStatus.INVISIBLE == PhotoStatus.getFromInt(1));
-		assert (PhotoStatus.FLAGGED2 == PhotoStatus.getFromInt(3));
-		assert (PhotoStatus.MODERATED == PhotoStatus.getFromInt(4));
-		assert (PhotoStatus.MODERATED3 == PhotoStatus.getFromInt(6));
+		assertTrue (PhotoStatus.VISIBLE == PhotoStatus.getFromInt(0));
+		assertTrue (PhotoStatus.INVISIBLE == PhotoStatus.getFromInt(1));
+		assertTrue (PhotoStatus.FLAGGED2 == PhotoStatus.getFromInt(3));
+		assertTrue (PhotoStatus.MODERATED == PhotoStatus.getFromInt(4));
+		assertTrue (PhotoStatus.MODERATED3 == PhotoStatus.getFromInt(6));
 
 		PhotoStatus ps = PhotoStatus.VISIBLE;
-		assert (ps.asInt() == 0);
+		assertTrue (ps.asInt() == 0);
 
 		PhotoStatus ps2 = ps.asInvisible(true);
-		assert (ps != ps2);
-		assert (ps2.isInvisible());
-		assert (!ps2.isFlagged());
-		assert (!ps2.isModerated());
-		assert (!ps2.isDisplayable());
+		assertTrue (ps != ps2);
+		assertTrue (ps2.isInvisible());
+		assertTrue (!ps2.isFlagged());
+		assertTrue (!ps2.isModerated());
+		assertTrue (!ps2.isDisplayable());
 
 		PhotoStatus ps3 = ps2.asFlagged(true);
-		assert (ps2 != ps3);
-		assert (ps3.isInvisible());
-		assert (ps3.isFlagged());
-		assert (!ps3.isModerated());
-		assert (!ps3.isDisplayable());
+		assertTrue (ps2 != ps3);
+		assertTrue (ps3.isInvisible());
+		assertTrue (ps3.isFlagged());
+		assertTrue (!ps3.isModerated());
+		assertTrue (!ps3.isDisplayable());
 
 		PhotoStatus ps3b = PhotoStatus.FLAGGED;
-		assert (ps3 != ps3b);
-		assert (!ps3b.isInvisible());
-		assert (ps3.isFlagged());
-		assert (!ps3.isModerated());
-		assert (!ps3.isDisplayable());
+		assertTrue (ps3 != ps3b);
+		assertTrue (!ps3b.isInvisible());
+		assertTrue (ps3.isFlagged());
+		assertTrue (!ps3.isModerated());
+		assertTrue (!ps3.isDisplayable());
 
 		PhotoStatus ps2b = ps3b.asInvisible(true);
-		assert (ps2b != ps3b);
+		assertTrue (ps2b != ps3b);
 
 		PhotoStatus ps4 = ps3.asModerated(true);
-		assert (ps4.isInvisible());
-		assert (ps4.isFlagged());
-		assert (ps4.isModerated());
-		assert (!ps4.isDisplayable());
+		assertTrue (ps4.isInvisible());
+		assertTrue (ps4.isFlagged());
+		assertTrue (ps4.isModerated());
+		assertTrue (!ps4.isDisplayable());
 	}
 
 	/**
@@ -121,10 +122,10 @@ public class ValueTest {
 		PhotoId test = PhotoId.getNextId();
 
 		int testInt = test.asInt();
-		assert (test == PhotoId.getIdFromInt(testInt));
+		assertEquals (test, PhotoId.getIdFromInt(testInt));
 
 		String testString = test.asString();
-		assert (test == PhotoId.getIdFromString(testString));
+		assertEquals (test, PhotoId.getIdFromString(testString));
 	}
 
 }

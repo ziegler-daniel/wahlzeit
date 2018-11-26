@@ -70,10 +70,10 @@ public class CartesianCoordinateTest {
 
 	@Test
 	public void testAsCartesianCoordinate() {
-		assert (c1 == c1.asCartesianCoordinate());
-		assert (c2 == c2.asCartesianCoordinate());
-		assert (c3 == c3.asCartesianCoordinate());
-		assert (c4 == c4.asCartesianCoordinate());
+		assertTrue (c1 == c1.asCartesianCoordinate());
+		assertTrue (c2 == c2.asCartesianCoordinate());
+		assertTrue (c3 == c3.asCartesianCoordinate());
+		assertTrue (c4 == c4.asCartesianCoordinate());
 	}
 
 	@Test
@@ -129,7 +129,7 @@ public class CartesianCoordinateTest {
 		c1.assertCoordinateValueValid(1.0);
 		c1.assertCoordinateValueValid(-231431.2314);
 		c1.assertCoordinateValueValid(2314.5679340);
-		assert(true);
+		assertTrue(true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)
