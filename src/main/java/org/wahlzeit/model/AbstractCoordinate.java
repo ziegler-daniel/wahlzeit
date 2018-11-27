@@ -21,7 +21,7 @@
 package org.wahlzeit.model;
 
 /**
- * An AbstractCoordinate represents a coordinte in the 3D space.
+ * An AbstractCoordinate represents a coordinate in the 3D space.
  */
 public abstract class AbstractCoordinate implements Coordinate {
 

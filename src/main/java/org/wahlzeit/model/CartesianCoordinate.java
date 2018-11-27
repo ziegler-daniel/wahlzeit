@@ -45,6 +45,8 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+
+		assertClassInvariants();
 	}
 
 
@@ -65,7 +67,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		double deltaY = cartesianCoordinate.y - y;
 		double deltaZ = cartesianCoordinate.z - z;
 
-		return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
+		double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
+
+		assert Double.isFinite(distance);
+		assert distance >= 0.0;
+		return distance;
 	}
 
 	@Override
@@ -129,6 +135,15 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		if (!Double.isFinite(value)) {
 			throw new IllegalArgumentException("The coordiante values must be finite.");
 		}
+	}
+
+	/**
+	 * @methodtype assert
+	 */
+	protected void assertClassInvariants() {
+		assert Double.isFinite(x);
+		assert Double.isFinite(y);
+		assert Double.isFinite(z);
 	}
 
 	/**

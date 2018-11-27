@@ -40,6 +40,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 	private final double phi;
 
 	/**
+	 * @param radius must be greater or equal to 0
+	 * @param theta  (polar angle) valid values [0, PI]
+	 * @param phi    (azimuthal angle) valid values [0, 2PI)
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(double radius, double theta, double phi) {
@@ -50,6 +53,8 @@ public class SphericCoordinate extends AbstractCoordinate {
 		this.radius = radius;
 		this.theta = theta;
 		this.phi = phi;
+
+		assertClassInvariants();
 	}
 
 	@Override
@@ -82,8 +87,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double thetaConverted2 = Math.PI / 2 - sphericCoordinate.theta;
 		double deltaPhi = Math.abs(phi - sphericCoordinate.phi);
 
-		return Math.acos(Math.sin(thetaConverted1) * Math.sin(thetaConverted2)
+		double centralAngle = Math.acos(Math.sin(thetaConverted1) * Math.sin(thetaConverted2)
 				+ Math.cos(thetaConverted1) * Math.cos(thetaConverted2) * Math.cos(deltaPhi));
+
+		assert Double.isFinite(centralAngle);
+		assert centralAngle >= 0.0;
+		return centralAngle;
 	}
 
 	@Override
@@ -162,6 +171,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 		if (angle < 0 || angle >= 2 * Math.PI) {
 			throw new IllegalArgumentException("Phi (the azimuthal angle) must be in the range [0, 2*PI) (radian measure). " + angle);
 		}
+	}
+
+	/**
+	 * @methodtype assert
+	 */
+	protected void assertClassInvariants() {
+		assert Double.isFinite(radius) && radius >= 0.0;
+		assert Double.isFinite(theta) && theta >= 0.0 && theta <= Math.PI;
+		assert Double.isFinite(phi) && phi >= 0.0 && phi < 2 * Math.PI;
 	}
 
 	/**
