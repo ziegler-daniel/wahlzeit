@@ -20,7 +20,6 @@
 
 package org.wahlzeit.model;
 
-import com.googlecode.objectify.annotation.Subclass;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;

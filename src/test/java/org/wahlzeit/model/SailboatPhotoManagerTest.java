@@ -27,8 +27,12 @@ import org.junit.rules.RuleChain;
 import org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider;
 import org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider;
 
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test for the {@link SailboatPhotoManager} class.
@@ -46,6 +50,7 @@ public class SailboatPhotoManagerTest {
 		SailboatPhotoFactory.instance = null;
 		SailboatPhotoFactory.initialize();
 		SailboatPhotoManager.getInstance().init();
+
 	}
 
 	@Test
@@ -54,7 +59,27 @@ public class SailboatPhotoManagerTest {
 		PhotoManager sailboatPhotoManager2 = SailboatPhotoManager.getInstance();
 
 		assertNotNull(sailboatPhotoManager1);
-		assertTrue (sailboatPhotoManager1 == sailboatPhotoManager2);
-		assertTrue (sailboatPhotoManager1 instanceof SailboatPhotoManager);
+		assertTrue(sailboatPhotoManager1 == sailboatPhotoManager2);
+		assertTrue(sailboatPhotoManager1 instanceof SailboatPhotoManager);
+	}
+
+	@Test
+	public void testAddAndLoadSailboatPhoto() {
+		PhotoManager photoManager = PhotoManager.getInstance();
+
+		//store the photo
+		PhotoId photoId = PhotoId.getNextId();
+		Photo photo = PhotoFactory.getInstance().createPhoto(photoId);
+		assertTrue(photo instanceof SailboatPhoto);
+
+		try {
+			photoManager.addPhoto(photo);
+		} catch (IOException e) {
+			fail();
+		}
+
+		assertTrue(photoManager.hasPhoto(photoId));
+		assertTrue(photoManager.getPhoto(photoId) instanceof SailboatPhoto);
+		assertEquals(photo, photoManager.getPhoto(photoId));
 	}
 }
