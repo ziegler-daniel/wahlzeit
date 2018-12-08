@@ -80,6 +80,9 @@ public class PhotoManager extends ObjectManager {
 	 * @methodtype boolean-query
 	 */
 	public final boolean hasPhoto(String id) {
+		if (id == null){
+			return false;
+		}
 		return hasPhoto(PhotoId.getIdFromString(id));
 	}
 
@@ -91,6 +94,7 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
+	 * @return The photo for the given id. Could be null if there is no photo with this id.
 	 * @methodtype get
 	 */
 	public final Photo getPhoto(PhotoId id) {
@@ -126,6 +130,7 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
+	 * @param myPhoto The photo that should be added. Must be not null.
 	 * @methodtype command
 	 * @methodproperties primitive
 	 */
@@ -149,7 +154,7 @@ public class PhotoManager extends ObjectManager {
 
 	/**
 	 * @methodtype command
-	 *
+	 * <p>
 	 * Load all persisted photos. Executed when Wahlzeit is restarted.
 	 */
 	public void loadPhotos() {
@@ -187,7 +192,7 @@ public class PhotoManager extends ObjectManager {
 
 	/**
 	 * @methodtype command
-	 *
+	 * <p>
 	 * Loads all scaled Images of this Photo from Google Cloud Storage
 	 */
 	protected void loadScaledImages(Photo photo) {
@@ -247,7 +252,7 @@ public class PhotoManager extends ObjectManager {
 
 	/**
 	 * @methodtype command
-	 *
+	 * <p>
 	 * Persists all available sizes of the Photo. If one size exceeds the limit of the persistence layer, e.g. > 1MB for
 	 * the Datastore, it is simply not persisted.
 	 */
@@ -300,7 +305,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 *
 	 */
-	public void savePhotos() throws IOException {
+	public void savePhotos() {
 		updateObjects(photoCache.values());
 	}
 
@@ -326,17 +331,26 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
-	 *
+	 * @methodtype get
 	 */
 	public Photo getVisiblePhoto(PhotoFilter filter) {
+		if(filter == null){
+			throw new IllegalArgumentException("The filter must not be null.");
+		}
 		filter.generateDisplayablePhotoIds();
 		return getPhotoFromId(filter.getRandomDisplayablePhotoId());
 	}
 
 	/**
+	 * @param filename      The name of the file where the photo is stored. Must not be null.
+	 * @param uploadedImage The uploaded image that should be added. Must not be null.
 	 * @methodtype factory
 	 */
 	public Photo createPhoto(String filename, Image uploadedImage) throws Exception {
+		if (filename == null || uploadedImage == null) {
+			throw new IllegalArgumentException("The filename and the uploaded photo must not be null.");
+		}
+
 		PhotoId id = PhotoId.getNextId();
 		Photo result = PhotoUtil.createPhoto(filename, id, uploadedImage);
 		addPhoto(result);
@@ -344,9 +358,15 @@ public class PhotoManager extends ObjectManager {
 	}
 
 	/**
+	 * @param photo The photo that should be added. Has to be new and not null.
+	 * @throw IllegalStateException if the given photo is not new.
 	 * @methodtype command
 	 */
-	public void addPhoto(Photo photo) throws IOException {
+	public void addPhoto(Photo photo) {
+		if (photo == null) {
+			throw new IllegalArgumentException("The photo must be not null.");
+		}
+
 		PhotoId id = photo.getId();
 		assertIsNewPhoto(id);
 		doAddPhoto(photo);

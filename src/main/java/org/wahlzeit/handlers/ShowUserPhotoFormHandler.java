@@ -57,22 +57,24 @@ public class ShowUserPhotoFormHandler extends AbstractWebFormHandler {
 	protected void doMakeWebPart(UserSession us, WebPart part) {
 		PhotoId photoId = us.getPhotoId();
 		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
-		String id = photo.getId().asString();
-		ModelConfig config = us.getClient().getLanguageConfiguration();
-		part.addString(Photo.ID, id);
-		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
+		if (photo != null) {
+			String id = photo.getId().asString();
+			ModelConfig config = us.getClient().getLanguageConfiguration();
+			part.addString(Photo.ID, id);
+			part.addString(Photo.THUMB, getPhotoThumb(us, photo));
 
-		part.addString(Photo.PRAISE, photo.getPraiseAsString(config));
+			part.addString(Photo.PRAISE, photo.getPraiseAsString(config));
 
-		String tags = photo.getTags().asString();
-		tags = !StringUtil.isNullOrEmptyString(tags) ? tags : config.getNoTags();
-		part.maskAndAddString(Photo.TAGS, tags);
+			String tags = photo.getTags().asString();
+			tags = !StringUtil.isNullOrEmptyString(tags) ? tags : config.getNoTags();
+			part.maskAndAddString(Photo.TAGS, tags);
 
-		String photoStatus = config.asValueString(photo.getStatus());
-		part.addString(Photo.STATUS, photoStatus);
+			String photoStatus = config.asValueString(photo.getStatus());
+			part.addString(Photo.STATUS, photoStatus);
 
-		part.addString(Photo.UPLOADED_ON, config.asDateString(photo.getCreationTime()));
-		part.addString(Photo.LINK, HtmlUtil.asHref(getResourceAsRelativeHtmlPathString(id)));
+			part.addString(Photo.UPLOADED_ON, config.asDateString(photo.getCreationTime()));
+			part.addString(Photo.LINK, HtmlUtil.asHref(getResourceAsRelativeHtmlPathString(id)));
+		}
 	}
 
 	/**

@@ -87,9 +87,10 @@ public class SendEmailFormHandler extends AbstractWebFormHandler {
 		String id = us.getAndSaveAsString(args, Photo.ID);
 		part.addString(Photo.ID, id);
 		Photo photo = PhotoManager.getInstance().getPhoto(id);
-		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
-
-		part.maskAndAddString(USER, photo.getOwnerId());
+		if (photo != null) {
+			part.addString(Photo.THUMB, getPhotoThumb(us, photo));
+			part.maskAndAddString(USER, photo.getOwnerId());
+		}
 
 		User user = (User) us.getClient();
 		part.addString(USER_LANGUAGE, user.getLanguageConfiguration().asValueString(user.getLanguage()));
@@ -111,6 +112,10 @@ public class SendEmailFormHandler extends AbstractWebFormHandler {
 	protected String doHandlePost(UserSession us, Map args) {
 		String id = us.getAndSaveAsString(args, Photo.ID);
 		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		if (photo == null) {
+			log.warning(String.format("Photo not found for id: %s", id));
+			return PartUtil.SEND_EMAIL_PAGE_NAME;
+		}
 
 		String emailSubject = us.getAndSaveAsString(args, EMAIL_SUBJECT);
 		String emailBody = us.getAndSaveAsString(args, EMAIL_BODY);
@@ -122,6 +127,10 @@ public class SendEmailFormHandler extends AbstractWebFormHandler {
 
 		UserManager userManager = UserManager.getInstance();
 		User toUser = userManager.getUserById(photo.getOwnerId());
+		if(toUser == null){
+			log.warning(String.format("User not found for id: %s", photo.getOwnerId()));
+			return PartUtil.SEND_EMAIL_PAGE_NAME;
+		}
 
 		emailSubject = config.getSendEmailSubjectPrefix() + emailSubject;
 		emailBody = config.getSendEmailBodyPrefix() + emailBody + config.getSendEmailBodyPostfix();

@@ -77,9 +77,10 @@ public class TellFriendFormHandler extends AbstractWebFormHandler {
 
 		part.addString(Photo.ID, id);
 		Photo photo = PhotoManager.getInstance().getPhoto(id);
-		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
-
-		part.maskAndAddStringFromArgsWithDefault(args, EMAIL_BODY, emailText);
+		if (photo != null) {
+			part.addString(Photo.THUMB, getPhotoThumb(us, photo));
+			part.maskAndAddStringFromArgsWithDefault(args, EMAIL_BODY, emailText);
+		}
 	}
 
 	/**

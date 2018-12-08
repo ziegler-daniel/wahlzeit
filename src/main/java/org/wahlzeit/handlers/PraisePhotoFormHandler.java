@@ -78,7 +78,7 @@ public class PraisePhotoFormHandler extends AbstractWebFormHandler {
 		Client client = us.getClient();
 
 		boolean wasPraised = false;
-		if (!StringUtil.isNullOrEmptyString(praise)) {
+		if (!StringUtil.isNullOrEmptyString(praise) && photo != null) {
 			if (!us.hasPraisedPhoto(photo)) {
 				int value = Integer.parseInt(praise);
 				photo.addToPraise(value);

@@ -69,9 +69,11 @@ public class ShowPhotoPageHandler extends AbstractWebPageHandler implements WebF
 
 		if (photo == null) {
 			PhotoFilter filter = us.getPhotoFilter();
-			photo = photoManager.getVisiblePhoto(filter);
-			if (photo != null) {
-				link = photo.getId().asString();
+			if (filter != null) {
+				photo = photoManager.getVisiblePhoto(filter);
+				if (photo != null) {
+					link = photo.getId().asString();
+				}
 			}
 		}
 
@@ -177,9 +179,11 @@ public class ShowPhotoPageHandler extends AbstractWebPageHandler implements WebF
 		PhotoId photoId = us.getPhotoId();
 		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
 
-		WebPart caption = createWebPart(us, PartUtil.CAPTION_INFO_FILE);
-		caption.addString(Photo.CAPTION, getPhotoCaption(us, photo));
-		page.addWritable(Photo.CAPTION, caption);
+		if (photo != null) {
+			WebPart caption = createWebPart(us, PartUtil.CAPTION_INFO_FILE);
+			caption.addString(Photo.CAPTION, getPhotoCaption(us, photo));
+			page.addWritable(Photo.CAPTION, caption);
+		}
 	}
 
 	/**

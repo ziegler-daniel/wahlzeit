@@ -197,16 +197,24 @@ public class Photo extends DataObject {
 	}
 
 	/**
+	 * @param cfg The model configuration. Must not be null.
 	 * @methodtype get
 	 */
 	public String getSummary(ModelConfig cfg) {
+		if (cfg == null) {
+			throw new IllegalArgumentException("The ModelConfig must not be null.");
+		}
 		return cfg.asPhotoSummary(ownerId);
 	}
 
 	/**
+	 * @param cfg The model configuration. Must not be null.
 	 * @methodtype get
 	 */
 	public String getCaption(ModelConfig cfg) {
+		if (cfg == null) {
+			throw new IllegalArgumentException("The ModelConfig must not be null.");
+		}
 		String ownerName = UserManager.getInstance().getUserById(ownerId).getNickName();
 		return cfg.asPhotoCaption(ownerName);
 	}
@@ -242,9 +250,13 @@ public class Photo extends DataObject {
 	}
 
 	/**
+	 * @param photo The photo to check the owner for. Must not be null.
 	 * @methodtype boolean-query
 	 */
 	public boolean hasSameOwner(Photo photo) {
+		if (photo == null) {
+			throw new IllegalArgumentException("The photo must not be null.");
+		}
 		return photo.getOwnerEmailAddress().equals(ownerEmailAddress);
 	}
 
@@ -313,9 +325,13 @@ public class Photo extends DataObject {
 	/**
 	 * Can this photo satisfy provided photo size?
 	 *
+	 * @param size The with which the photo is compared. Must not be null.
 	 * @methodtype boolean-query
 	 */
 	public boolean hasPhotoSize(PhotoSize size) {
+		if (size == null) {
+			throw new IllegalArgumentException("The photo size must not be null.");
+		}
 		return maxPhotoSize.asInt() >= size.asInt();
 	}
 
@@ -327,9 +343,13 @@ public class Photo extends DataObject {
 	}
 
 	/**
+	 * @param cfg The model configuration. Must not be null.
 	 * @methodtype get
 	 */
 	public String getPraiseAsString(ModelConfig cfg) {
+		if (cfg == null) {
+			throw new IllegalArgumentException("The ModelConfig must not be null.");
+		}
 		return cfg.asPraiseString(getPraise());
 	}
 

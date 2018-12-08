@@ -230,6 +230,10 @@ public class PhotoId implements Serializable {
 	 *
 	 */
 	public static int getFromString(String value) {
+		if (value == null){
+			throw new IllegalArgumentException("The string representing the id must not be null.");
+		}
+
 		int result = 0;
 		for (int i = 1; i < value.length(); i++) {
 			int temp = 0;

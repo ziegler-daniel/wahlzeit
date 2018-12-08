@@ -74,7 +74,7 @@ public class SailboatPhotoManagerTest {
 
 		try {
 			photoManager.addPhoto(photo);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			fail();
 		}
 
