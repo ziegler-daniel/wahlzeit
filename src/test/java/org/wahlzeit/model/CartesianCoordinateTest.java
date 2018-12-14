@@ -55,17 +55,17 @@ public class CartesianCoordinateTest {
 	 */
 	@Before
 	public void setUp() {
-		c1 = new CartesianCoordinate(0.0, 0.0, 0.0);
-		c2 = new CartesianCoordinate(1.0, 1.0, 1.0);
-		c3 = new CartesianCoordinate(3.0, 4.0, -6.5);
-		c4 = new CartesianCoordinate(3.0, 4.0, -6.5);
-		c5 = new CartesianCoordinate(1.0, 1.0, 0.0);
+		c1 = CartesianCoordinate.getInstance(0.0, 0.0, 0.0);
+		c2 = CartesianCoordinate.getInstance(1.0, 1.0, 1.0);
+		c3 = CartesianCoordinate.getInstance(3.0, 4.0, -6.5);
+		c4 = CartesianCoordinate.getInstance(3.0, 4.0, -6.5);
+		c5 = CartesianCoordinate.getInstance(1.0, 1.0, 0.0);
 
-		s1 = new SphericCoordinate(0.0, 1.0, 3.234);
-		s2 = new SphericCoordinate(Math.sqrt(3), 0.9553166181, 0.7853981634);
-		s3 = new SphericCoordinate(8.200609733, 2.485897027, 0.927295218);
-		s4 = new SphericCoordinate(8.200609733, 2.485897027, 0.927295218);
-		s5 = new SphericCoordinate(Math.sqrt(2), Math.PI/2, Math.PI/4);
+		s1 = SphericCoordinate.getInstance(0.0, 1.0, 3.234);
+		s2 = SphericCoordinate.getInstance(Math.sqrt(3), 0.9553166181, 0.7853981634);
+		s3 = SphericCoordinate.getInstance(8.200609733, 2.485897027, 0.927295218);
+		s4 = SphericCoordinate.getInstance(8.200609733, 2.485897027, 0.927295218);
+		s5 = SphericCoordinate.getInstance(Math.sqrt(2), Math.PI/2, Math.PI/4);
 	}
 
 	@Test

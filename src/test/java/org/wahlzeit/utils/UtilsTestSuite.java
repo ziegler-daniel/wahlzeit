@@ -30,7 +30,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses(value = {
 		org.wahlzeit.utils.DoubleUtilTest.class,
 		org.wahlzeit.utils.StringUtilTest.class,
-		org.wahlzeit.utils.VersionTest.class,
+		org.wahlzeit.utils.ValueObjectManagerTest.class,
+		org.wahlzeit.utils.VersionTest.class
 })
 public class UtilsTestSuite {
 	/*

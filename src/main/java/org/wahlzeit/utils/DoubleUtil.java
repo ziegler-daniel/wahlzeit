@@ -20,6 +20,10 @@
 
 package org.wahlzeit.utils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
+
 /**
  * A set of utility functions for working with doubles. Especially for comparing them.
  */
@@ -28,21 +32,61 @@ public class DoubleUtil {
 	/**
 	 * If the difference between two double values is below this threshold they are assumed as equal.
 	 */
-	private static final double THRESHOLD_DOUBLE = 1.0E-5;
+	private static final double THRESHOLD_DOUBLE = 1.0E-6;
 
+	/**
+	 * The precision that is used by default to compute the hashcode of double values.
+	 */
+	private static final int HASH_CODE_PRECISION = 6;
+
+	/**
+	 * @methodtype boolean-query
+	 */
 	public static boolean areEqual(double a, double b) {
 		return areEqual(a, b, THRESHOLD_DOUBLE);
 	}
 
+	/**
+	 * @methodtype boolean-query
+	 */
 	public static boolean areEqual(double a, double b, double threshold) {
 		return Math.abs(a - b) < threshold;
 	}
 
+	/**
+	 * @methodtype boolean-query
+	 */
 	public static boolean areEqualTo(double a, double b, double expected) {
 		return areEqualTo(a, b, expected, THRESHOLD_DOUBLE);
 	}
 
+	/**
+	 * @methodtype boolean-query
+	 */
 	public static boolean areEqualTo(double a, double b, double expected, double threshold) {
 		return areEqual(a, expected, threshold) && areEqual(b, expected, threshold);
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	public static int computeHashCodeWithPrecision(double a, double b, double c) {
+		return computeHashCodeWithPrecision(a, b, c, HASH_CODE_PRECISION);
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	public static int computeHashCodeWithPrecision(double a, double b, double c, int precision) {
+		return Objects.hash(roundDoubleWithPresicision(a, precision),
+				roundDoubleWithPresicision(b, precision),
+				roundDoubleWithPresicision(c, precision));
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	public static double roundDoubleWithPresicision(double value, int precision) {
+		return new BigDecimal(value).setScale(precision, RoundingMode.HALF_UP).doubleValue();
 	}
 }

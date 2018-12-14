@@ -21,11 +21,16 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.DoubleUtil;
+import org.wahlzeit.utils.ValueObjectManager;
 
 /**
  * A CartesianCoordinate represents a cartesian coordinate in the 3D.
+ * <p>
+ * This class is implemented according to the pattern of shared value objects.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
+
+	private static final ValueObjectManager<CartesianCoordinate> valueObjectManager = new ValueObjectManager<>();
 
 	/**
 	 * x, y, z values representing the cartesian coordinate
@@ -37,11 +42,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype constructor
 	 */
-	public CartesianCoordinate(double x, double y, double z) {
-		assertCoordinateValueValid(x);
-		assertCoordinateValueValid(y);
-		assertCoordinateValueValid(z);
-
+	private CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -49,6 +50,22 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertClassInvariants();
 	}
 
+	/**
+	 * @param x The x-coordinate. Must be a finite double value.
+	 * @param y The y-coordinate. Must be a finite double value.
+	 * @param z The z-coordinate. Must be a finite double value.
+	 * @return The value object representing the coordinate.
+	 * @methodtype factory
+	 */
+	public static CartesianCoordinate getInstance(double x, double y, double z) {
+		assertCoordinateValueValid(x);
+		assertCoordinateValueValid(y);
+		assertCoordinateValueValid(z);
+
+		int key = DoubleUtil.computeHashCodeWithPrecision(x, y, z);
+
+		return valueObjectManager.getValueObject(key, () -> new CartesianCoordinate(x, y, z));
+	}
 
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
@@ -92,7 +109,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 			}
 		}
 
-		return new SphericCoordinate(radius, theta, phi);
+		return SphericCoordinate.getInstance(radius, theta, phi);
 	}
 
 	@Override
@@ -108,30 +125,30 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * @methodtype boolean-query
 	 */
 	public boolean isEqual(CartesianCoordinate coordinate) {
-		if (coordinate == null) {
-			return false;
-		}
-
-		return DoubleUtil.areEqual(coordinate.x, x)
-				&& DoubleUtil.areEqual(coordinate.y, y)
-				&& DoubleUtil.areEqual(coordinate.z, z);
+		return this == coordinate;
 	}
 
 	/**
 	 * @methodtype boolean-query
 	 */
 	public boolean equals(Object object) {
-		if (object instanceof CartesianCoordinate) {
-			return isEqual((CartesianCoordinate) object);
-		}
+		return this == object;
+	}
 
-		return false;
+	@Override
+	public int hashCode() {
+		return DoubleUtil.computeHashCodeWithPrecision(x, y, z);
+	}
+
+	@Override
+	public CartesianCoordinate clone(){
+		return this;
 	}
 
 	/**
 	 * @methodtype assert
 	 */
-	protected void assertCoordinateValueValid(double value) {
+	protected static void assertCoordinateValueValid(double value) {
 		if (!Double.isFinite(value)) {
 			throw new IllegalArgumentException("The coordiante values must be finite.");
 		}
@@ -166,6 +183,5 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	public double getZ() {
 		return z;
 	}
-
 
 }

@@ -22,7 +22,9 @@ package org.wahlzeit.utils;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -31,10 +33,10 @@ import static org.junit.Assert.assertTrue;
 public class DoubleUtilTest {
 
 	@Test
-	public void testAreEqual(){
+	public void testAreEqual() {
 		assertTrue(DoubleUtil.areEqual(0.0, 0.0));
 		assertTrue(DoubleUtil.areEqual(-99.9999999, -100));
-		assertTrue(DoubleUtil.areEqual(1.00012, 1.000129));
+		assertTrue(DoubleUtil.areEqual(1.000012, 1.0000129));
 		assertFalse(DoubleUtil.areEqual(2.00022, 2.00023));
 		assertFalse(DoubleUtil.areEqual(12345.97800, 12345.9780123));
 
@@ -44,7 +46,7 @@ public class DoubleUtilTest {
 	}
 
 	@Test
-	public void testAreEqualTo(){
+	public void testAreEqualTo() {
 		assertTrue(DoubleUtil.areEqualTo(0.0, 0.0, 0.0));
 		assertTrue(DoubleUtil.areEqualTo(99.999999, 99.9999996, 100.0));
 		assertFalse(DoubleUtil.areEqualTo(1.0, 1.0001, 1.0));
@@ -52,4 +54,28 @@ public class DoubleUtilTest {
 		assertTrue(DoubleUtil.areEqualTo(1.0, 10.0, 5.0, 6.0));
 		assertFalse(DoubleUtil.areEqualTo(0.99999, 1.0001, 1.0, 2.0E-7));
 	}
+
+	@Test
+	public void testRoundDoubleWithPresicision() {
+		assertDoubleBitsEqual(1.0, DoubleUtil.roundDoubleWithPresicision(0.9999, 3));
+		assertDoubleBitsEqual(1.0, DoubleUtil.roundDoubleWithPresicision(0.9995, 3));
+		assertDoubleBitsEqual(0.555, DoubleUtil.roundDoubleWithPresicision(0.555, 3));
+		assertDoubleBitsEqual(123.444, DoubleUtil.roundDoubleWithPresicision(123.44444, 3));
+		assertDoubleBitsEqual(5000.000, DoubleUtil.roundDoubleWithPresicision(5000.00001, 3));
+		assertDoubleBitsEqual(5000.233, DoubleUtil.roundDoubleWithPresicision(5000.233333, 3));
+	}
+
+	public void assertDoubleBitsEqual(double d1, double d2) {
+		assertEquals(Double.doubleToLongBits(d1), Double.doubleToLongBits(d2));
+	}
+
+	@Test
+	public void testComputeHashCodeWithPrecision() {
+		int hashCode1 = DoubleUtil.computeHashCodeWithPrecision(1.00, 32.00, 42.00, 2);
+		assertEquals(hashCode1, DoubleUtil.computeHashCodeWithPrecision(1.001, 32.003, 42.0004, 2));
+		assertEquals(hashCode1, DoubleUtil.computeHashCodeWithPrecision(0.999, 32.004, 41.9998, 2));
+		assertNotEquals(hashCode1, DoubleUtil.computeHashCodeWithPrecision(0.99, 32.00, 42.00, 2));
+		assertNotEquals(hashCode1, DoubleUtil.computeHashCodeWithPrecision(0.995, 32.01, 42.00, 2));
+	}
+
 }

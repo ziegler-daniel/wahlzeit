@@ -53,19 +53,19 @@ public class SphericCoordinateTest {
 
 	@Before
 	public void setUp() {
-		s1 = new SphericCoordinate(0.0, 0.0, 0.0);
-		s2 = new SphericCoordinate(6000.0, Math.PI / 2, 0);
-		s3 = new SphericCoordinate(500.0, Math.PI, Math.PI);
-		s4 = new SphericCoordinate(Math.sqrt(3.0), 0.95531661812, Math.PI / 4);
-		s5 = new SphericCoordinate(Math.sqrt(12), 2.1862760355, 1.75 * Math.PI);
-		s6 = new SphericCoordinate(45234.34, 2.342, 4.42);
+		s1 = SphericCoordinate.getInstance(0.0, 0.0, 0.0);
+		s2 = SphericCoordinate.getInstance(6000.0, Math.PI / 2, 0);
+		s3 = SphericCoordinate.getInstance(500.0, Math.PI, Math.PI);
+		s4 = SphericCoordinate.getInstance(Math.sqrt(3.0), 0.95531661812, Math.PI / 4);
+		s5 = SphericCoordinate.getInstance(Math.sqrt(12), 2.1862760355, 1.75 * Math.PI);
+		s6 = SphericCoordinate.getInstance(45234.34, 2.342, 4.42);
 
-		c1 = new CartesianCoordinate(0.0, 0.0, 0.0);
-		c2 = new CartesianCoordinate(6000.0, 0.0, 0.0);
-		c3 = new CartesianCoordinate(0.0, 0.0, -500.0);
-		c4 = new CartesianCoordinate(1.0, 1.0, 1.0);
-		c5 = new CartesianCoordinate(2.0, -2.0, -2.0);
-		c6 = new CartesianCoordinate(-9349.45648717036547, -31059.628335828437, -31528.2835922019581);
+		c1 = CartesianCoordinate.getInstance(0.0, 0.0, 0.0);
+		c2 = CartesianCoordinate.getInstance(6000.0, 0.0, 0.0);
+		c3 = CartesianCoordinate.getInstance(0.0, 0.0, -500.0);
+		c4 = CartesianCoordinate.getInstance(1.0, 1.0, 1.0);
+		c5 = CartesianCoordinate.getInstance(2.0, -2.0, -2.0);
+		c6 = CartesianCoordinate.getInstance(-9349.45648717036547, -31059.628335828437, -31528.2835922019581);
 	}
 
 	@Test
@@ -132,7 +132,7 @@ public class SphericCoordinateTest {
 		assertTrue(s6.isEqual(s6));
 		assertTrue(s2.isEqual(c2));
 		assertTrue(s4.isEqual(c4));
-		assertTrue(s1.isEqual(new SphericCoordinate(0.0, 1.134, 2.75)));
+		assertTrue(s1.isEqual(SphericCoordinate.getInstance(0.0, 1.134, 2.75)));
 	}
 
 	@Test
@@ -144,12 +144,28 @@ public class SphericCoordinateTest {
 		assertTrue(s4.equals(s4));
 	}
 
+	@Test
+	public void testNormalizeTheata() {
+		assertEquals(1.42, SphericCoordinate.normalizeTheata(1.42, 1.0), THRESHOLD_DOUBLE);
+		assertEquals(0.23490, SphericCoordinate.normalizeTheata(0.23490, 0.00034), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizeTheata(2.5, 0.0), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizeTheata(2.33, 0.00000001), THRESHOLD_DOUBLE);
+	}
+
+	@Test
+	public void testNormalizePhi() {
+		assertEquals(1.43, SphericCoordinate.normalizePhi(1.43, 13.0, 0.75), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizePhi(2.43, 0.0, 0.75), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizePhi(2.43, 1.0, 0.0), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizePhi(2.43, 1.0, 0.0000001), THRESHOLD_DOUBLE);
+		assertEquals(0.0, SphericCoordinate.normalizePhi(2.43, 1.0, Math.PI), THRESHOLD_DOUBLE);
+	}
 
 	@Test
 	public void testAssertValidRadius() {
 		s1.assertValidRadius(0.0);
 		s1.assertValidRadius(100.2314);
-		assertTrue (true); // pass test case if there was no exception
+		assertTrue(true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -172,7 +188,7 @@ public class SphericCoordinateTest {
 		s1.assertValidTheta(0.0);
 		s1.assertValidTheta(Math.PI);
 		s1.assertValidTheta(1.4653);
-		assertTrue (true); // pass test case if there was no exception
+		assertTrue(true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -190,7 +206,7 @@ public class SphericCoordinateTest {
 		s1.assertValidPhi(0.0);
 		s1.assertValidPhi(3.423);
 		s1.assertValidPhi(2 * Math.PI - 0.0001);
-		assertTrue (true); // pass test case if there was no exception
+		assertTrue(true); // pass test case if there was no exception
 	}
 
 	@Test(expected = IllegalArgumentException.class)

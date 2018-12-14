@@ -21,6 +21,9 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.DoubleUtil;
+import org.wahlzeit.utils.ValueObjectManager;
+
+import java.util.Objects;
 
 /**
  * A SphericCoordinate represents a spheric coordinate in the 3D space.
@@ -29,8 +32,15 @@ import org.wahlzeit.utils.DoubleUtil;
  * Radius (radial distance): Must be greater or equal to 0
  * Theta (polar angle, inclination): Valid values [0, PI]
  * Phi (azimuthal angle, azimuth): Valid values [0, 2PI)
+ * <p>
+ * The angles for theta and phi are normalized. So theta and phi are 0.0 if the radius is zero.
+ * And phi is set to zero if theta is 0.0 or PI.
+ * <p>
+ * This class is implemented according to the pattern of shared value objects.
  */
 public class SphericCoordinate extends AbstractCoordinate {
+
+	private static final ValueObjectManager<SphericCoordinate> valueObjectManager = new ValueObjectManager<>();
 
 	/**
 	 * The triple radius, theta and phi represent a spheric coordinate as defined above.
@@ -41,20 +51,34 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	/**
 	 * @param radius must be greater or equal to 0
-	 * @param theta  (polar angle) valid values [0, PI]
-	 * @param phi    (azimuthal angle) valid values [0, 2PI)
+	 * @param theta  (polar angle) valid values [0, PI]. Must be normalized.
+	 * @param phi    (azimuthal angle) valid values [0, 2PI). Must be normalized.
 	 * @methodtype constructor
 	 */
-	public SphericCoordinate(double radius, double theta, double phi) {
-		assertValidRadius(radius);
-		assertValidTheta(theta);
-		assertValidPhi(phi);
-
+	private SphericCoordinate(double radius, double theta, double phi) {
 		this.radius = radius;
 		this.theta = theta;
 		this.phi = phi;
 
 		assertClassInvariants();
+	}
+
+	/**
+	 * @param radius must be greater or equal to 0
+	 * @param theta  (polar angle) valid values [0, PI]
+	 * @param phi    (azimuthal angle) valid values [0, 2PI)
+	 * @methodtype factory
+	 */
+	public static SphericCoordinate getInstance(double radius, double theta, double phi) {
+		assertValidRadius(radius);
+		assertValidTheta(theta);
+		assertValidPhi(phi);
+
+		double thetaNormalized = normalizeTheata(theta, radius);
+		double phiNormalized = normalizePhi(phi, radius, theta);
+
+		int key = DoubleUtil.computeHashCodeWithPrecision(radius, thetaNormalized, phiNormalized);
+		return valueObjectManager.getValueObject(key, () -> new SphericCoordinate(radius, thetaNormalized, phiNormalized));
 	}
 
 	@Override
@@ -63,7 +87,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double y = radius * Math.sin(theta) * Math.sin(phi);
 		double z = radius * Math.cos(theta);
 
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.getInstance(x, y, z);
 	}
 
 	@Override
@@ -108,39 +132,52 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype boolean-query
 	 */
 	public boolean isEqual(SphericCoordinate coordinate) {
-		if (coordinate == null) {
-			return false;
-		}
-
-		// For the cartesian coordinate (0,0,0) theta and phi can be arbitrary
-		if (DoubleUtil.areEqualTo(radius, coordinate.radius, 0.0)) {
-			return true;
-		}
-
-		// For points on the z-axis phi can be arbitrary
-		if (DoubleUtil.areEqualTo(theta, coordinate.theta, 0.0)
-				|| DoubleUtil.areEqualTo(theta, coordinate.theta, Math.PI)) {
-			return DoubleUtil.areEqual(radius, coordinate.radius);
-		}
-
-		return DoubleUtil.areEqual(coordinate.radius, radius)
-				&& DoubleUtil.areEqual(coordinate.theta, theta)
-				&& DoubleUtil.areEqual(coordinate.phi, phi);
+		return this == coordinate;
 	}
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof SphericCoordinate) {
-			return isEqual((SphericCoordinate) object);
+		return this == object;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(radius, theta, phi);
+	}
+
+	@Override
+	public SphericCoordinate clone() {
+		return this;
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	protected static double normalizeTheata(double theta, double radius) {
+		if (DoubleUtil.areEqual(radius, 0.0)) {
+			return 0.0;
+		}
+		return theta;
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	protected static double normalizePhi(double phi, double radius, double theta) {
+		if (DoubleUtil.areEqual(radius, 0.0)) {
+			return 0.0;
 		}
 
-		return false;
+		if (DoubleUtil.areEqual(theta, 0.0) || DoubleUtil.areEqual(theta, Math.PI)) {
+			return 0.0;
+		}
+		return phi;
 	}
 
 	/**
 	 * @methodtype assert
 	 */
-	protected void assertValidRadius(double radialDistance) {
+	protected static void assertValidRadius(double radialDistance) {
 		if (!Double.isFinite(radialDistance)) {
 			throw new IllegalArgumentException("The radius must be finite.");
 		}
@@ -152,7 +189,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype assert
 	 */
-	protected void assertValidTheta(double angle) {
+	protected static void assertValidTheta(double angle) {
 		if (!Double.isFinite(angle)) {
 			throw new IllegalArgumentException("Theta (the polar angle) must be finite.");
 		}
@@ -164,7 +201,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype assert
 	 */
-	protected void assertValidPhi(double angle) {
+	protected static void assertValidPhi(double angle) {
 		if (!Double.isFinite(angle)) {
 			throw new IllegalArgumentException("Phi (the azimuthal angle) must be finite (radian measure).");
 		}
@@ -180,6 +217,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 		assert Double.isFinite(radius) && radius >= 0.0;
 		assert Double.isFinite(theta) && theta >= 0.0 && theta <= Math.PI;
 		assert Double.isFinite(phi) && phi >= 0.0 && phi < 2 * Math.PI;
+
+		if (DoubleUtil.areEqual(radius, 0.0)) {
+			assert DoubleUtil.areEqual(theta, 0.0);
+			assert DoubleUtil.areEqual(phi, 0.0);
+		}
+
+		if (DoubleUtil.areEqual(theta, 0.0) || DoubleUtil.areEqual(theta, Math.PI)) {
+			assert DoubleUtil.areEqual(phi, 0.0);
+		}
 	}
 
 	/**
