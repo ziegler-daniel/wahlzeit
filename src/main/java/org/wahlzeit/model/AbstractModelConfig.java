@@ -23,6 +23,7 @@ package org.wahlzeit.model;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.handlers.PartUtil;
 import org.wahlzeit.main.ServiceMain;
 import org.wahlzeit.services.AbstractConfig;
@@ -45,6 +46,10 @@ import java.util.logging.Logger;
  * A generic implementation of ModelConfig.
  * Subclasses provide the parameters and language-specific handling of text and data.
  */
+@PatternInstance(
+		patternName = "Strategy",
+		participants = {"Abstract strategy - AbstractModelConfig", "Strategy 1 - GermanModelConfig", "Strategy 2 - EnglishModelConfig"}
+)
 public abstract class AbstractModelConfig extends AbstractConfig implements ModelConfig, Serializable {
 
 	private static final Logger log = Logger.getLogger(AbstractModelConfig.class.getName());

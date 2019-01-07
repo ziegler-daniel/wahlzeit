@@ -20,6 +20,7 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.utils.HtmlUtil;
 
@@ -29,6 +30,10 @@ import java.text.SimpleDateFormat;
 /**
  * A model configuration for the English language.
  */
+@PatternInstance(
+		patternName = "Strategy",
+		participants = {"Abstract strategy - AbstractModelConfig", "Strategy 1 - GermanModelConfig", "Strategy 2 - EnglishModelConfig"}
+)
 public class EnglishModelConfig extends AbstractModelConfig {
 
 	/**

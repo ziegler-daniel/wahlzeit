@@ -20,13 +20,18 @@
 
 package org.wahlzeit.services.mailing;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.services.EmailAddress;
 
 import javax.mail.Message;
 
 /**
- * Abstract superclass for non-trivial EmailServer implementations.
+ * Mock implementation of the EmailService.
  */
+@PatternInstance(
+		patternName = "Template method",
+		participants = {"Abstract class - AbstractEmailService", "Concrete class - MockEmailService", "Concrete class - SmtpEmailService"}
+)
 public class MockEmailService extends AbstractEmailService {
 
 	/**

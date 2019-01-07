@@ -26,6 +26,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.OfyService;
 
@@ -36,7 +37,7 @@ import java.util.logging.Logger;
 
 /**
  * Adapter for the Google Datastore. Use default constructor to create an instance.
- * 
+ *
  * @review
  */
 public class DatastoreAdapter extends ImageStorage {
@@ -111,10 +112,14 @@ public class DatastoreAdapter extends ImageStorage {
 
 	/**
 	 * Wrapper class to store {@link Image}s in the Google Datastore with Objectify.
-	 * 
- 	 * @review
+	 *
+	 * @review
 	 */
 	@Entity
+	@PatternInstance(
+			patternName = "Adapter/Wrapper",
+			participants = {"Wrapper - ImageWrapper"}
+	)
 	public static class ImageWrapper {
 
 		// see https://cloud.google.com/datastore/docs/tools/administration
@@ -142,14 +147,13 @@ public class DatastoreAdapter extends ImageStorage {
 
 		/**
 		 * @methodtype set
-		 *
+		 * <p>
 		 * Can not handle images >= 1 MB because this is the upper limit of entities in Google Datastore.
 		 */
 		public void setImage(Image image) throws ArrayIndexOutOfBoundsException {
-			if(image.getImageData().length >= maxEntitySize) {
+			if (image.getImageData().length >= maxEntitySize) {
 				throw new ArrayIndexOutOfBoundsException("Can not store images >= 1 MB in the Google Datastore.");
-			}
-			else {
+			} else {
 				imageData = image.getImageData();
 			}
 		}

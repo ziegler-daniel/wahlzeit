@@ -20,11 +20,17 @@
 
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
+
 import java.util.logging.Logger;
 
 /**
  * A sailboat photo manager provides access to and manages sailboat photos.
  */
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {"Singleton - PhotoManager", "Singleton - SailboatPhotoManager"}
+)
 public class SailboatPhotoManager extends PhotoManager {
 
 	private static final Logger log = Logger.getLogger(SailboatPhotoManager.class.getName());

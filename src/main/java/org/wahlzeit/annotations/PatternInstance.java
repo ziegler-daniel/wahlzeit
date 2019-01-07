@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
+ * Copyright (c) 2018-2019 by Daniel Ziegler
  *
  * This file is part of the Wahlzeit photo rating application.
  *
@@ -18,35 +18,13 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.handlers;
-
-import org.wahlzeit.annotations.PatternInstance;
-import org.wahlzeit.model.AccessRights;
-import org.wahlzeit.model.UserSession;
-import org.wahlzeit.webparts.WebPart;
-
+package org.wahlzeit.annotations;
 
 /**
- * A handler class for a null web form.
+ * This annotation is used to document the used design patterns at class level.
  */
-@PatternInstance(
-		patternName = "Null Object",
-		participants = {"Null Object - NullFormHandler"}
-)
-public class NullFormHandler extends AbstractWebFormHandler {
+public @interface PatternInstance {
+	String patternName();
 
-	/**
-	 *
-	 */
-	public NullFormHandler() {
-		initialize(PartUtil.NULL_FORM_FILE, AccessRights.GUEST);
-	}
-
-	/**
-	 *
-	 */
-	protected void doMakeWebPart(UserSession us, WebPart part) {
-		// do nothing
-	}
-
+	String[] participants();
 }
