@@ -26,6 +26,7 @@ import org.wahlzeit.model.GlobalsManager;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoCaseManager;
 import org.wahlzeit.model.PhotoManager;
+import org.wahlzeit.model.SailboatManager;
 import org.wahlzeit.model.SailboatPhotoFactory;
 import org.wahlzeit.model.SailboatPhotoManager;
 import org.wahlzeit.model.User;
@@ -68,6 +69,9 @@ public abstract class ModelMain extends AbstractMain {
 		log.config(LogBuilder.createSystemMessage().addAction("init SailboatPhotoFactory").toString());
 		SailboatPhotoFactory.initialize();
 
+		log.config(LogBuilder.createSystemMessage().addAction("load SailboatTypes and Sailboats").toString());
+		SailboatManager.getInstance().init();
+
 		log.config(LogBuilder.createSystemMessage().addAction("load SailboatPhotos").toString());
 		SailboatPhotoManager.getInstance().init();
 	}
@@ -86,6 +90,7 @@ public abstract class ModelMain extends AbstractMain {
 	 *
 	 */
 	public void saveAll() throws IOException {
+		SailboatManager.getInstance().saveAll();
 		PhotoCaseManager.getInstance().savePhotoCases();
 		PhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveClients();

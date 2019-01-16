@@ -29,9 +29,9 @@ import com.googlecode.objectify.annotation.Subclass;
 public class SailboatPhoto extends Photo {
 
 	/**
-	 * The name of the sailboat.
+	 * The sailboat that is shown on the photo.
 	 */
-	private String sailboatName;
+	private Sailboat sailboat;
 
 	/**
 	 * @methodtype constructor
@@ -43,9 +43,9 @@ public class SailboatPhoto extends Photo {
 	/**
 	 * @methodtype constructor
 	 */
-	public SailboatPhoto(String sailboatName) {
+	public SailboatPhoto(Sailboat sailboat) {
 		super();
-		this.sailboatName = sailboatName;
+		this.sailboat = sailboat;
 
 	}
 
@@ -60,23 +60,23 @@ public class SailboatPhoto extends Photo {
 	/**
 	 * @methodtype constructor
 	 */
-	public SailboatPhoto(PhotoId myId, String sailboatName) {
+	public SailboatPhoto(PhotoId myId, Sailboat sailboat) {
 		super(myId);
-		this.sailboatName = sailboatName;
+		this.sailboat = sailboat;
 	}
 
 	/**
 	 * @methodtype get
 	 */
-	public String getSailboatName() {
-		return sailboatName;
+	public Sailboat getSailboat() {
+		return sailboat;
 	}
 
 	/**
 	 * @methodtype set
 	 */
-	public void setSailboatName(String sailboatName) {
-		this.sailboatName = sailboatName;
+	public void setSailboat(Sailboat sailboat) {
+		this.sailboat = sailboat;
 	}
 
 }

@@ -20,35 +20,62 @@
 
 package org.wahlzeit.model;
 
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.wahlzeit.testEnvironmentProvider.LocalDatastoreServiceTestConfigProvider;
 import org.wahlzeit.testEnvironmentProvider.RegisteredOfyEnvironmentProvider;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
- * Test for the {@link SailboatPhoto} class.
+ * Test for the {@link Sailboat} class.
  */
-public class SailboatPhotoTest {
+public class SailboatTest {
+	private SailboatType sailboatType;
+	private Sailboat sailboat;
 
 	@ClassRule
 	public static RuleChain ruleChain = RuleChain.
 			outerRule(new LocalDatastoreServiceTestConfigProvider()).
 			around(new RegisteredOfyEnvironmentProvider());
 
+	@Before
+	public void setup() {
+		sailboatType = new SailboatType("Dschunke");
+		sailboat = new Sailboat(sailboatType, "Dschunke", 12.0);
+	}
+
 	@Test
-	public void testInitialization() {
-		PhotoId photoId = new PhotoId(0x42);
+	public void testCreation() {
+		assertEquals(sailboatType, sailboat.getType());
+		assertEquals("Dschunke", sailboat.getName());
+		assertEquals(12.0, sailboat.getLength(), 1.0e-10);
+	}
 
-		SailboatType sailboatType = new SailboatType("Schoner");
-		Sailboat sailboat = sailboatType.createInstance("Harald", 42.0);
-		SailboatPhoto sailboatPhoto = new SailboatPhoto(photoId, sailboat);
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidName() {
+		sailboat.setName(null);
+	}
 
-		assertEquals(sailboatPhoto.getSailboat().getName(), "Harald");
-		assertEquals(sailboatPhoto.getSailboat().getType().getName(), "Schoner");
-		assertEquals(sailboatPhoto.getSailboat().getLength(), 42.0);
-		assertEquals(sailboatPhoto.getId(), photoId);
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidLenghtZero() {
+		sailboat.setLength(0.0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidLenghtNaN() {
+		sailboat.setLength(Double.NaN);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidLenghtNegative() {
+		sailboat.setLength(-42.0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidType() {
+		sailboat.setType(null);
 	}
 }
