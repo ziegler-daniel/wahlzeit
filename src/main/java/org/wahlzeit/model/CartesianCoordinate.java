@@ -62,7 +62,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		assertCoordinateValueValid(y);
 		assertCoordinateValueValid(z);
 
-		int key = DoubleUtil.computeHashCodeWithPrecision(x, y, z);
+		String key = DoubleUtil.computeKeyWithPrecision(x, y, z);
 
 		return valueObjectManager.getValueObject(key, () -> new CartesianCoordinate(x, y, z));
 	}

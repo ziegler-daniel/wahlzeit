@@ -77,7 +77,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		double thetaNormalized = normalizeTheata(theta, radius);
 		double phiNormalized = normalizePhi(phi, radius, theta);
 
-		int key = DoubleUtil.computeHashCodeWithPrecision(radius, thetaNormalized, phiNormalized);
+		String key = DoubleUtil.computeKeyWithPrecision(radius, thetaNormalized, phiNormalized);
 		return valueObjectManager.getValueObject(key, () -> new SphericCoordinate(radius, thetaNormalized, phiNormalized));
 	}
 

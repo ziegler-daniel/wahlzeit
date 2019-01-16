@@ -22,6 +22,7 @@ package org.wahlzeit.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -79,6 +80,23 @@ public class DoubleUtil {
 	 */
 	public static int computeHashCodeWithPrecision(double a, double b, double c, int precision) {
 		return Objects.hash(roundDoubleWithPresicision(a, precision),
+				roundDoubleWithPresicision(b, precision),
+				roundDoubleWithPresicision(c, precision));
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	public static String computeKeyWithPrecision(double a, double b, double c) {
+		return computeKeyWithPresicsion(a, b, c, HASH_CODE_PRECISION);
+	}
+
+	/**
+	 * @methodtype conversion
+	 */
+	public static String computeKeyWithPresicsion(double a, double b, double c, int precision){
+		String formatString = String.format("(%%.%df, %%.%df, %%.%df)", precision, precision, precision);
+		return String.format(Locale.US, formatString, roundDoubleWithPresicision(a, precision),
 				roundDoubleWithPresicision(b, precision),
 				roundDoubleWithPresicision(c, precision));
 	}

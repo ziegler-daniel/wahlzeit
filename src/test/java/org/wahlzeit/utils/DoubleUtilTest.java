@@ -78,4 +78,12 @@ public class DoubleUtilTest {
 		assertNotEquals(hashCode1, DoubleUtil.computeHashCodeWithPrecision(0.995, 32.01, 42.00, 2));
 	}
 
+	@Test
+	public void testComputeKeyWithPrecision(){
+		assertEquals("(1.00, 2.00, 3.00)", DoubleUtil.computeKeyWithPresicsion(1, 1.999, 3.0001, 2));
+		assertEquals("(1.00, 1.99, 3.00)", DoubleUtil.computeKeyWithPresicsion(1.001, 1.99, 3.0001, 2));
+		assertEquals("(1.0000, 1.9990, 3.0001)", DoubleUtil.computeKeyWithPresicsion(1, 1.999, 3.0001, 4));
+		assertEquals("(1.000, 1.999, 3.000)", DoubleUtil.computeKeyWithPresicsion(1, 1.999, 3.0001, 3));
+		assertEquals("(0.57, -0.11, 3.01)", DoubleUtil.computeKeyWithPresicsion(0.56999, -0.11111, 3.00999, 2));
+	}
 }

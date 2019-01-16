@@ -37,42 +37,42 @@ public class ValueObjectManagerTest {
 
 	@Test
 	public void testGetValueObjectReturnsSameObject() {
-		List<Integer> callLog = new ArrayList<>();
+		List<String> callLog = new ArrayList<>();
 		ValueObjectManager<TestItem> manager = new ValueObjectManager<>();
 
-		TestItem item1 = getObjectFromManager(1, manager, callLog);
-		TestItem item2 = getObjectFromManager(2, manager, callLog);
+		TestItem item1 = getObjectFromManager("1", manager, callLog);
+		TestItem item2 = getObjectFromManager("2", manager, callLog);
 
 		assertNotNull(item1);
 		assertNotNull(item2);
 		assertTrue(item1 != item2);
-		assertTrue(item1 == getObjectFromManager(1, manager, callLog));
-		assertTrue(item2 == getObjectFromManager(2, manager, callLog));
+		assertTrue(item1 == getObjectFromManager("1", manager, callLog));
+		assertTrue(item2 == getObjectFromManager("2", manager, callLog));
 	}
 
 	@Test
 	public void testGetValueObjectCallsConstructorOnlyOnce() {
-		List<Integer> callLog = new ArrayList<>();
+		List<String> callLog = new ArrayList<>();
 		ValueObjectManager<TestItem> manager = new ValueObjectManager<>();
 
-		getObjectFromManager(1, manager, callLog);
-		getObjectFromManager(1, manager, callLog);
-		getObjectFromManager(1, manager, callLog);
-		getObjectFromManager(2, manager, callLog);
-		getObjectFromManager(2, manager, callLog);
-		getObjectFromManager(21, manager, callLog);
+		getObjectFromManager("1", manager, callLog);
+		getObjectFromManager("1", manager, callLog);
+		getObjectFromManager("1", manager, callLog);
+		getObjectFromManager("2", manager, callLog);
+		getObjectFromManager("2", manager, callLog);
+		getObjectFromManager("21", manager, callLog);
 
-		assertEquals(Arrays.asList(1, 2, 21), callLog);
+		assertEquals(Arrays.asList("1", "2", "21"), callLog);
 	}
 
-	private TestItem getObjectFromManager(int key, ValueObjectManager<TestItem> manager, List<Integer> callLog) {
+	private TestItem getObjectFromManager(String key, ValueObjectManager<TestItem> manager, List<String> callLog) {
 		return manager.getValueObject(key, () -> new TestItem(key, callLog));
 	}
 }
 
 class TestItem {
 
-	public TestItem(int key,  List<Integer> callLog) {
+	public TestItem(String key,  List<String> callLog) {
 		callLog.add(key);
 	}
 }

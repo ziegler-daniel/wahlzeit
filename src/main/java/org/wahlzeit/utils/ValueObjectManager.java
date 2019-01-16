@@ -30,7 +30,7 @@ import java.util.function.Supplier;
  */
 public class ValueObjectManager<T> {
 
-	private HashMap<Integer, T> valueObjects;
+	private HashMap<String, T> valueObjects;
 
 	public ValueObjectManager() {
 		valueObjects = new HashMap<>();
@@ -43,7 +43,7 @@ public class ValueObjectManager<T> {
 	 * @param supplier A function to create the corresponding instance of the value object class T.
 	 * @methodtype get
 	 */
-	public T getValueObject(int key, Supplier<T> supplier) {
+	public T getValueObject(String key, Supplier<T> supplier) {
 		T object = valueObjects.get(key);
 		if (object == null) {
 			synchronized (this) {
