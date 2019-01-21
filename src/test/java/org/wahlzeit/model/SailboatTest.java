@@ -60,17 +60,17 @@ public class SailboatTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetInvalidLenghtZero() {
+	public void testSetInvalidLengthZero() {
 		sailboat.setLength(0.0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetInvalidLenghtNaN() {
+	public void testSetInvalidLengthNaN() {
 		sailboat.setLength(Double.NaN);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetInvalidLenghtNegative() {
+	public void testSetInvalidLengthNegative() {
 		sailboat.setLength(-42.0);
 	}
 

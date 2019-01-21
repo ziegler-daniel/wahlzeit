@@ -120,9 +120,9 @@ public class Sailboat extends DataObject {
 	/**
 	 * @methodtype set
 	 */
-	public void setLength(double lenght) {
-		assertLenghtValid(lenght);
-		this.length = lenght;
+	public void setLength(double length) {
+		assertLenghtValid(length);
+		this.length = length;
 		updateObject();
 	}
 
@@ -158,8 +158,8 @@ public class Sailboat extends DataObject {
 	/**
 	 * @methodtype assert
 	 */
-	private void assertLenghtValid(double lenght) {
-		if (!Double.isFinite(lenght) || lenght <= 0) {
+	private void assertLenghtValid(double length) {
+		if (!Double.isFinite(length) || length <= 0) {
 			throw new IllegalArgumentException("The length must be a postive value.");
 		}
 	}

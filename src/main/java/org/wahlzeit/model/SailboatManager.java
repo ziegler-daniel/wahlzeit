@@ -78,16 +78,16 @@ public class SailboatManager extends ObjectManager {
 	/**
 	 * @methodtype factory
 	 */
-	public Sailboat createSailboat(String typename, String sailboatName, double lenght) {
+	public Sailboat createSailboat(String typename, String sailboatName, double length) {
 		SailboatType type = getSailboatType(typename);
-		return createSailboat(type, sailboatName, lenght);
+		return createSailboat(type, sailboatName, length);
 	}
 
 	/**
 	 * @methodtype factory
 	 */
-	public Sailboat createSailboat(SailboatType type, String sailboatName, double lenght){
-		Sailboat sailboat = type.createInstance(sailboatName, lenght);
+	public Sailboat createSailboat(SailboatType type, String sailboatName, double length){
+		Sailboat sailboat = type.createInstance(sailboatName, length);
 		addSailboat(sailboat);
 		return sailboat;
 	}
@@ -133,8 +133,6 @@ public class SailboatManager extends ObjectManager {
 
 		for (SailboatType type : existingSailboatTypes) {
 			if (!sailboatTypes.containsKey(type.getName())) {
-				System.out.println("Sailboat type loaded: " + type.getName());
-
 				log.config(LogBuilder.createSystemMessage().
 						addParameter("Load SailboatType with name", type.getName()).toString());
 			} else {
@@ -160,8 +158,6 @@ public class SailboatManager extends ObjectManager {
 
 		for (Sailboat sailboat : existingSailboats) {
 			if (!sailboats.contains(sailboat)) {
-				System.out.println("Sailboat loaded: " + sailboat.getName());
-
 				log.config(LogBuilder.createSystemMessage().
 						addParameter("Load Sailboat with ID", sailboat.hashCode()).toString());
 			} else {
@@ -179,8 +175,6 @@ public class SailboatManager extends ObjectManager {
 	public void saveAll() {
 		saveSailboatTypes();
 		saveSailboats();
-
-		System.out.println("All saved");
 	}
 
 	/**
