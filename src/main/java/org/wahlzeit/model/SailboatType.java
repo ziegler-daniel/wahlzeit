@@ -89,4 +89,12 @@ public class SailboatType extends DataObject {
 	public int hashCode() {
 		return Objects.hash(name);
 	}
+
+	/**
+	 * As we use flat type hierarchy for sailboat types this returns always false.
+	 * @methodtype get
+	 */
+	public boolean isSubtype(){
+		return false;
+	}
 }
