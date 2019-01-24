@@ -49,7 +49,7 @@ public class Sailboat extends DataObject {
 	/**
 	 * Default constructor is required by the google datastore.
 	 */
-	public Sailboat() {
+	protected Sailboat() {
 
 	}
 
@@ -77,8 +77,7 @@ public class Sailboat extends DataObject {
 		}
 
 		Sailboat sailboat = (Sailboat) o;
-		return type.equals(sailboat.type) &&
-				name.equals(sailboat.name);
+		return type.equals(sailboat.type) && name.equals(sailboat.name);
 	}
 
 	@Override

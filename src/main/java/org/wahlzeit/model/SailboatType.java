@@ -46,7 +46,7 @@ public class SailboatType extends DataObject {
 	/**
 	 * Default constructor is required by the google datastore.
 	 */
-	public SailboatType() {
+	protected SailboatType() {
 
 	}
 
