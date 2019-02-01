@@ -32,6 +32,8 @@ import java.util.logging.Logger;
 
 /**
  * Class to manage the sailboats.
+ *
+ * Bind the manager role in the manager-element-collaboration of {@link SailboatManager} and {@link Sailboat}.
  */
 public class SailboatManager extends ObjectManager {
 

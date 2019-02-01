@@ -32,6 +32,10 @@ import java.util.Objects;
 
 /**
  * Class to represent a real sailboat.
+ *
+ * Binds the service role in the client-service-collaboration of {@link SailboatPhoto} and {@link Sailboat}.
+ * Binds the base-object role in the type-object-collaboration of {@link SailboatType} and {@link Sailboat}.
+ * Bind the element role in the manager-element-collaboration of {@link SailboatManager} and {@link Sailboat}.
  */
 @Entity
 public class Sailboat extends DataObject {

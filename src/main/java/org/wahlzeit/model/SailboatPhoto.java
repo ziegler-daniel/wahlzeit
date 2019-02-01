@@ -24,6 +24,8 @@ import com.googlecode.objectify.annotation.Subclass;
 
 /**
  * A photo represents a user-provided (uploaded) photo of a sailboat.
+ *
+ * Binds the client role in the client-service-collaboration of {@link SailboatPhoto} and {@link Sailboat}.
  */
 @Subclass(index = true)
 public class SailboatPhoto extends Photo {

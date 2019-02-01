@@ -32,6 +32,8 @@ import java.util.Objects;
 
 /**
  * Class to represent the type of a sailboat.
+ *
+ * Binds the type-object role in the type-object-collaboration of {@link SailboatType} and {@link Sailboat}.
  */
 @Entity
 public class SailboatType extends DataObject {
